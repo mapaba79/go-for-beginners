@@ -1,13 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
-func bubbleSort(arr []int) {
+func BubbleSort(arr []int) {
 	n := len(arr)
 	for i := 0; i < n-1; i++ {
-		for j := 0; j < n-i-1; j++ {
+		for j := 0; j < n-1-i; j++ {
 			if arr[j] > arr[j+1] {
-				// Swap elements
 				arr[j], arr[j+1] = arr[j+1], arr[j]
 			}
 		}
@@ -15,10 +20,27 @@ func bubbleSort(arr []int) {
 }
 
 func main() {
-	arr := []int{64, 34, 25, 12, 22, 11, 90}
-	fmt.Println("Unsorted array:", arr)
+	fmt.Println("Digite os números separados por espaço:")
 
-	bubbleSort(arr)
+	reader := bufio.NewReader(os.Stdin)
+	line, _ := reader.ReadString('\n') // lê até Enter
 
-	fmt.Println("Sorted array:", arr)
+	strNums := strings.Fields(line)
+	numbers := []int{}
+	for _, str := range strNums {
+		num, err := strconv.Atoi(str)
+		if err != nil {
+			fmt.Println("Erro ao converter:", str)
+			return
+		}
+		numbers = append(numbers, num)
+	}
+
+	BubbleSort(numbers)
+
+	fmt.Println("Números ordenados:")
+	for _, v := range numbers {
+		fmt.Print(v, " ")
+	}
+	fmt.Println()
 }
